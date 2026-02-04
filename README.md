@@ -31,14 +31,14 @@ python scripts/collect_github.py
 Project Update & Next Steps
 
 Status:
-    Mining script has been running for ~20 hours. We have identified ~10 candidate repos that match our specific criteria:
+    Mining script has been running for ~20 hours. We have identified 9 candidate repos that match our specific criteria:
     Language: Python (critical for our downstream Pylint/ODC analysis).
     Activity: >200 Stars, Pushed since Jan 1, 2024.
     Data Density: >50 Total PRs, with at least 10+ AI-tagged PRs (to ensure we have a control group).
 *Note*: Treat these as candidates. They fit the search parameters, but we still need to verify they contain usable data for our deep dive.
 
-Immediate Plan:
-    I am updating the mining script to cache results (skip already-checked repos) to save time. This should be live by tomorrow.
+Immediate Update:
+    The mining script cahces results (skip already-checked repos) to save time. This should be live.
 
 Action Items (Who can take these?):
 1. Data Processing Script
@@ -54,13 +54,3 @@ Action Items (Who can take these?):
     Compare Productivity (Speed, Volume) vs. Maintenance (Rework, Churn).
     Goal: See if the "productivity boost" correlates with higher maintenance debt.
     Let’s aim to have preliminary numbers for the Methodology section of the report!
-
-Current Repos Found: 
-pytest-dev/pytest
-OWASP/CheatSheetSeries
-google/python-fire
-huggingface/lerobot
-aio-libs/aiohttp
-simonw/llm
-pypa/pip
-Acly/krita-ai-diffusion

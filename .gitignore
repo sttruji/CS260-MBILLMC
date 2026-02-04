@@ -2,5 +2,6 @@
 .env
 __pycache__/
 !data/raw/
-data/processed/
+!data/processed/
 !data/raw/targeted_repos.csv
+!data/processed/explored_repos.csv

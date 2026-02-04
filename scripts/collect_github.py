@@ -3,6 +3,7 @@ import time
 from github import Github, RateLimitExceededException
 from dotenv import load_dotenv
 import pandas as pd
+from datetime import datetime
 
 # Load environment variables
 load_dotenv()
@@ -10,6 +11,9 @@ TOKEN = os.getenv("GITHUB_TOKEN")
 
 # Initialize PyGithub (Handles auth & retries better than raw requests)
 g = Github(TOKEN)
+
+# Path to explored repos tracking file
+EXPLORED_REPOS_FILE = 'data/processed/explored_repos.csv'
 
 def check_ai_rules(repo):
     """
@@ -73,8 +77,40 @@ def filter_repository(repo):
         print(f"Error filtering {repo.full_name}: {e}")
         return False, 0, 0, []
 
+def load_explored_repos():
+    """
+    Load the CSV of already-explored repositories.
+    Returns a set of repo names for fast lookup.
+    """
+    if os.path.exists(EXPLORED_REPOS_FILE):
+        df = pd.read_csv(EXPLORED_REPOS_FILE)
+        return set(df['repo_name'].tolist())
+    return set()
+
+def append_explored_repo(repo_name, merged_prs, ai_prs):
+    """
+    Append a newly-explored repo to the tracking CSV.
+    """
+    os.makedirs('data/processed', exist_ok=True)
+    
+    new_row = pd.DataFrame([{
+        'repo_name': repo_name,
+        'merged_prs': merged_prs,
+        'ai_prs': ai_prs,
+        'timestamp': datetime.now().isoformat()
+    }])
+    
+    if os.path.exists(EXPLORED_REPOS_FILE):
+        new_row.to_csv(EXPLORED_REPOS_FILE, mode='a', header=False, index=False)
+    else:
+        new_row.to_csv(EXPLORED_REPOS_FILE, mode='w', header=True, index=False)
+
 def main(target_count=20):
     discovered_repos = []
+    
+    # Load previously explored repos
+    explored_repos = load_explored_repos()
+    print(f"Loaded {len(explored_repos)} previously explored repositories.")
     
     # Expanded Search Query: Python repos, pushed recently, sorted by help-wanted or stars
     # "is:public" is implicit but good for clarity
@@ -88,10 +124,19 @@ def main(target_count=20):
         for repo in repositories:
             if len(discovered_repos) >= target_count:
                 break
+            
+            # Skip if already explored
+            if repo.full_name in explored_repos:
+                print(f"Skipping {repo.full_name} (already explored)")
+                continue
                 
             print(f"Checking {repo.full_name}...", end=" ")
             
             is_valid, merged, ai_count, rules = filter_repository(repo)
+            
+            # Add to explored repos tracking (regardless of match status)
+            append_explored_repo(repo.full_name, merged, ai_count)
+            explored_repos.add(repo.full_name)  # Update in-memory set
             
             if is_valid:
                 print(f"MATCH! (Merged: {merged}, AI-PRs: {ai_count}, Rules: {rules})")
