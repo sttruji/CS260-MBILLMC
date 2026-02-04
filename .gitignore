@@ -1,6 +1,6 @@
 /.venv
 .env
 __pycache__/
-data/raw/
+!data/raw/
 data/processed/
-!data/raw/repositories.json
+!data/raw/targeted_repos.csv
