@@ -55,3 +55,12 @@ Action Items (Who can take these?):
     Goal: See if the "productivity boost" correlates with higher maintenance debt.
     Let’s aim to have preliminary numbers for the Methodology section of the report!
 
+Current Repos Found: 
+pytest-dev/pytest
+OWASP/CheatSheetSeries
+google/python-fire
+huggingface/lerobot
+aio-libs/aiohttp
+simonw/llm
+pypa/pip
+Acly/krita-ai-diffusion
