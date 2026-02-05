@@ -49,8 +49,55 @@ Action Items (Who can take these?):
     Rework Metrics:
     Churn: Lines re-modified within 90 days.
     Retries: Count of commits/iterations before PR acceptance.
+
+
+
+
 2. Comparative Analysis Script
     Once we have the CSV, we need a script to run the stats:
     Compare Productivity (Speed, Volume) vs. Maintenance (Rework, Churn).
     Goal: See if the "productivity boost" correlates with higher maintenance debt.
     Let’s aim to have preliminary numbers for the Methodology section of the report!
+
+---
+
+## Data Processing Pipeline (Implemented) ✅
+
+- **Stage 1 — PR Ingestion & Classification** 🔧
+  - Files: `scripts/extractors/pr_classifier.py`, `scripts/extractors/github_utils.py`, `scripts/process_data.py`
+  - Output: `data/processed/pr_details.csv`
+  - Description: Fetches merged PRs and classifies PRs as AI vs Human via labels, keywords, and author patterns. Supports incremental saves/resume.
+
+- **Stage 2 — Volume & Code Metrics** 🧮
+  - Files: `scripts/extractors/metrics.py`, `scripts/compute_metrics.py`
+  - Output: `data/processed/processed_data.csv`
+  - Description: Computes commit-level NLOC, per-PR total and average NLOC, and commit counts. Supports `--max-commits` flag to limit API calls.
+
+- **Stage 3 — Rework & Churn Metrics** 🔍
+  - Files: `scripts/extractors/churn_analyzer.py`, `scripts/compute_churn.py`
+  - Output: `data/processed/rework_metrics.csv` and cached JSONs in `data/cache/rework/`
+  - Description: Checks whether files modified by a PR were re-modified within 90 days and computes churn lines and rework events. Supports `--window-days` and `--max-files` flags.
+
+---
+
+## How to run (Step-by-step) ▶️
+
+
+1. Stage 1 — Ingest & classify PRs
+   - `python scripts/process_data.py`
+   - Output: `data/processed/pr_details.csv`
+
+2. Stage 2 — Compute commit-level metrics (NLOC)
+   - Test run: `python scripts/compute_metrics.py --max-commits 50`
+   - Output: `data/processed/processed_data.csv`
+
+3. Stage 3 — Compute churn / rework metrics
+   - Test run: `python scripts/compute_churn.py --window-days 90 --max-files 5`
+   - Output: `data/processed/rework_metrics.csv` and `data/cache/rework/`
+
+---
+
+### Notes & Tips ⚠️
+- Add `pandas` and `PyGithub` to `requirements.txt`. Consider `GitPython` for precise git-based churn later.
+- Scripts include retry/backoff and incremental saving; re-run picks up where it left off.
+- Use `--max-commits` and `--max-files` to limit API usage. Run long jobs in `tmux` or `nohup`.
