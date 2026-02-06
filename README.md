@@ -18,7 +18,7 @@ Place key in .env
 **Scripts** 
 
 python scripts/collect_github.py 
-    Collects repositories from github with the following critera 
+    Collects repositories from github with the following criteria 
         200+ Stars on github
         Python based Repository (needed downstream)
         50+ PRs 
@@ -38,10 +38,10 @@ Status:
 *Note*: Treat these as candidates. They fit the search parameters, but we still need to verify they contain usable data for our deep dive.
 
 Immediate Update:
-    The mining script cahces results (skip already-checked repos) to save time. This should be live.
+    The mining script caches results (skip already-checked repos) to save time. This should be live.
 
-Action Items (Who can take these?):
-1. Data Processing Script
+Action Items: ✅ Complete
+1. Data Processing Script ✅
     We need a script to ingest these candidate repos and output a processed_data.csv with the following columns:
     Classification: Tag AI vs. Human (based on "AI-Generated" labels or body text).
     Timestamps: Capture dates to infer model usage (Copilot vs. Cursor).
@@ -53,7 +53,7 @@ Action Items (Who can take these?):
 
 
 
-2. Comparative Analysis Script
+2. Comparative Analysis Script ✅
     Once we have the CSV, we need a script to run the stats:
     Compare Productivity (Speed, Volume) vs. Maintenance (Rework, Churn).
     Goal: See if the "productivity boost" correlates with higher maintenance debt.
@@ -97,7 +97,22 @@ Action Items (Who can take these?):
 
 ---
 
+## Comparative Analysis
+
+- **Comparative Analysis** 📊
+  - Files: `analysis/comparative_analysis.py`
+  - Output: Console output + `analysis/findings/YYYY-MM-DD_comparative_analysis.md`
+  - Description: Statistical comparison of AI vs Human PRs on productivity (speed, volume) and maintenance (churn, rework). Uses Mann-Whitney U tests, effect sizes (Cohen's d), and Spearman correlations.
+  - **Key Finding (2026-02-05):** AI shows 3.45x productivity boost but 6.03x higher maintenance churn.
+
+   **To run comparative analysis**
+   - `python analysis/comparative_analysis.py`
+   - Output: Console stats + save findings to `analysis/findings/`
+
+---
+
+
 ### Notes & Tips ⚠️
-- Add `pandas` and `PyGithub` to `requirements.txt`. Consider `GitPython` for precise git-based churn later.
+- Dependencies: `pandas`, `PyGithub`, `numpy`, `scipy`. All in `requirements.txt`.
 - Scripts include retry/backoff and incremental saving; re-run picks up where it left off.
 - Use `--max-commits` and `--max-files` to limit API usage. Run long jobs in `tmux` or `nohup`.
