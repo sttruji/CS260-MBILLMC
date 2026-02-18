@@ -1,0 +1,57 @@
+{
+  "dataset": {
+    "total_commits": 2044,
+    "ai_commits": 1100,
+    "human_commits": 944,
+    "ai_percentage": 53.8160469667319
+  },
+  "hypothesis_tests": {
+    "h1_odc_types": {
+      "chi_square": 45.941135107071474,
+      "p_value": 2.439030926267204e-07,
+      "supported": true,
+      "cramers_v": 0.14992029047667402
+    },
+    "h2_cognitive_load": {
+      "t_statistic": -3.3166158053173143,
+      "p_value": 0.0009271204965375969,
+      "supported": true,
+      "ai_mean": 2.559941884786855,
+      "human_mean": 2.663780794867928,
+      "cohens_d": -0.1468952782597835
+    },
+    "h3_llm_patterns": {
+      "t_statistic": -4.300971051793033,
+      "p_value": 1.780682462530356e-05,
+      "supported": true,
+      "ai_mean": 0.25555912918358215,
+      "human_mean": 0.28762678435568984,
+      "cohens_d": -0.19144067886294905
+    }
+  },
+  "cognitive_load_breakdown": {
+    "intrinsic": {
+      "ai_mean": 1.431393693066905,
+      "human_mean": 1.4805413123222935,
+      "p_value": 0.00946627871751628
+    },
+    "extraneous": {
+      "ai_mean": 1.1285481917199505,
+      "human_mean": 1.183239482545634,
+      "p_value": 0.010983999570464342
+    },
+    "germane": {
+      "ai_mean": 1.2922863364318349,
+      "human_mean": 1.3073895388589019,
+      "p_value": 0.42927122587459265
+    }
+  },
+  "model_comparison": {
+    "base_auc": 0.588069240624272,
+    "with_clt_auc": 0.7040720358723503,
+    "with_llm_auc": 0.6216245923596553,
+    "full_model_auc": 0.7096632599580712,
+    "ai_effect_reduction_clt": 14.41656531764613,
+    "ai_effect_reduction_llm": 9.03225105424976
+  }
+}
