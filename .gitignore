@@ -5,3 +5,4 @@ __pycache__/
 !data/processed/
 !data/raw/targeted_repos.csv
 !data/processed/explored_repos.csv
+data/cache/
