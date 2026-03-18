@@ -235,3 +235,17 @@ If you are rebuilding everything from scratch, run the project in this order:
   - `notebooks/rq1_v2_analysis.ipynb`
   - `notebooks/rq2_v2_analysis.ipynb`
 - For a quick grading pass, the v2 notebooks are the ones you want.
+
+## RQ 3
+Setup instructions are similar. The human PR related data is hosted on a Google Drive (https://drive.google.com/drive/folders/19iCMv_kun9cSCByykRYFbcRK1HwHZs6o?usp=drive_link)
+To get started:
+1. Open the shared Google Drive folder using the link above.
+2. Copy the files to your own Google Drive.
+
+### Running the Analysis
+
+Once the data is in place, simply execute the notebook `RQ3_Analysis.ipynb`
+
+### Results & Analysis
+
+All results and analysis are contained within the notebook itself.
